@@ -1,0 +1,3 @@
+[submodule "mojitos"]
+	path = mojitos
+	url = https://gitlab.irit.fr/sepia-pub/mojitos
