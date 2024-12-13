@@ -8,6 +8,7 @@
 static void generateFractal(unsigned char *pixels, int width, int height, int iteration_max, double a, double b, double xmin, double xmax, double ymin, double ymax);
 static void generateFractal_Optim1(unsigned char *pixels, int width, int height, int iteration_max, double a, double b, double xmin, double xmax, double ymin, double ymax);
 static void generateFractal_FixedPoint(unsigned char *pixels, int width, int height, int iteration_max, double a, double b, double xmin, double xmax, double ymin, double ymax);
+static void generateFractal_BinaryLowLevel_q16_16(unsigned char *pixels, int width, int height, int iteration_max, double a, double b, double xmin, double xmax, double ymin, double ymax);
 static int32_t double_to_fixed(double val);
 static void writeBMP(const char *filename, unsigned char *pixels, int width, int height);
 static unsigned char* createBitmapFileHeader(int height, int stride);
@@ -33,8 +34,9 @@ static unsigned char* createBitmapInfoHeader(int height, int width);
 #define FIXED_SHIFT 16
 
 // opti3
-#define SHIFT 8
-#define RADIUS_LIMIT (4 << SHIFT) // 4.0 en Q8.8 = 1024
+#define SHIFT 16
+#define FIXED_ONE (1 << SHIFT)
+#define RADIUS_LIMIT (4 << SHIFT)  // 4.0 en Q16.16 = 262144
 
 
 int main(int argc, char *argv[]) {
@@ -80,7 +82,8 @@ int main(int argc, char *argv[]) {
 
     // generateFractal(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
     // generateFractal_Optim1(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
-    generateFractal_FixedPoint(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
+    // generateFractal_FixedPoint(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
+    generateFractal_BinaryLowLevel_q16_16(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
     writeBMP("fractal.bmp", pixels, width, height);
 
     free(pixels);
@@ -121,6 +124,8 @@ static void generateFractal(unsigned char *pixels, int width, int height, int it
     }
 }
 
+// opti1
+
 static void generateFractal_Optim1(unsigned char *pixels, int width, int height, int iteration_max, double a, double b, double xmin, double xmax, double ymin, double ymax) {
     double dx = (xmax - xmin) / (double)width;
     double dy = (ymax - ymin) / (double)height;
@@ -156,6 +161,8 @@ static void generateFractal_Optim1(unsigned char *pixels, int width, int height,
         }
     }
 }
+
+// opti2
 
 static int32_t double_to_fixed(double val) {
     // Convertit un double en Q16.16 (approximation)
@@ -246,51 +253,49 @@ static void generateFractal_FixedPoint(unsigned char *pixels, int width, int hei
     }
 }
 
-static int32_t double_to_fixed_q8_8(double val) {
-    return (int32_t)(val * 256.0);
+// opti3
+
+static int32_t double_to_fixed_q16_16(double val) {
+    return (int32_t)(val * (double)(1 << SHIFT));
 }
 
-static void generateFractal_BinaryLowLevel(unsigned char *pixels, int width, int height, int iteration_max, 
-                                           double a, double b, double xmin, double xmax, double ymin, double ymax)
+static void generateFractal_BinaryLowLevel_q16_16(unsigned char *pixels, int width, int height, int iteration_max, 
+                                                  double a, double b, double xmin, double xmax, double ymin, double ymax)
 {
-    // Conversion en Q8.8
-    int32_t Af    = double_to_fixed_q8_8(a);
-    int32_t Bf    = double_to_fixed_q8_8(b);
-    int32_t Xmin = double_to_fixed_q8_8(xmin);
-    int32_t Xmax = double_to_fixed_q8_8(xmax);
-    int32_t Ymin = double_to_fixed_q8_8(ymin);
-    int32_t Ymax = double_to_fixed_q8_8(ymax);
+    // Conversion en Q16.16
+    int32_t Af   = double_to_fixed_q16_16(a);
+    int32_t Bf   = double_to_fixed_q16_16(b);
+    int32_t Xmin = double_to_fixed_q16_16(xmin);
+    int32_t Xmax = double_to_fixed_q16_16(xmax);
+    int32_t Ymin = double_to_fixed_q16_16(ymin);
+    int32_t Ymax = double_to_fixed_q16_16(ymax);
 
-    // dx, dy en Q8.8
+    // dx, dy en Q16.16
     int32_t DX = (Xmax - Xmin) / width;
     int32_t DY = (Ymax - Ymin) / height;
 
-    // Boucle sur chaque pixel
     for (int line = 0; line < height; line++) {
         int32_t Y = Ymax - line * DY;
         int32_t X_start = Xmin;
+
         for (int col = 0; col < width; col++) {
             int32_t X = X_start + col * DX;
             int32_t Yv = Y;
-
             int i;
             for (i = 1; i <= iteration_max; i++) {
-                // X² + Y² > 4.0 ?
-                // Q8.8 : (X*X)>>8 donne Q8.8, idem pour Y.
-                // radius = (X² + Y²)>>8 + (Y²>>8) directement
+                // Calcule rayon² = X² + Y² en Q16.16
                 int64_t XX = ((int64_t)X * (int64_t)X) >> SHIFT;
                 int64_t YY = ((int64_t)Yv * (int64_t)Yv) >> SHIFT;
                 int64_t radius = XX + YY;
 
-                if (radius > RADIUS_LIMIT) {
-                    // On sort de la fractale
+                // Test échappement : radius >= 4.0 ?
+                if (radius >= RADIUS_LIMIT) {
                     break;
                 }
 
                 // x_new = X² - Y² + A
                 // y_new = 2*X*Y + B
                 int64_t XY = ((int64_t)X * (int64_t)Yv) >> SHIFT;
-
                 int64_t x_new = XX - YY + Af;
                 int64_t y_new = (XY << 1) + Bf;
 
@@ -299,19 +304,16 @@ static void generateFractal_BinaryLowLevel(unsigned char *pixels, int width, int
             }
 
             int index = (line * width + col) * BYTES_PER_PIXEL;
-
-            // Si i > iteration_max, on considère pixel intérieur
-            // Sinon, pixel extérieur coloré
             if (i > iteration_max) {
                 // Intérieur -> Noir
-                pixels[index + 0] = 0;  
-                pixels[index + 1] = 0;  
-                pixels[index + 2] = 0;  
+                pixels[index + 0] = 0;
+                pixels[index + 1] = 0;
+                pixels[index + 2] = 0;
             } else {
-                // Extérieur
+                // Extérieur : simple mapping de i
                 pixels[index + 0] = (unsigned char)((4*i) & 0xFF); 
-                pixels[index + 1] = (unsigned char)((2*i) & 0xFF); 
-                pixels[index + 2] = (unsigned char)((6*i) & 0xFF); 
+                pixels[index + 1] = (unsigned char)((2*i) & 0xFF);
+                pixels[index + 2] = (unsigned char)((6*i) & 0xFF);
             }
         }
     }
