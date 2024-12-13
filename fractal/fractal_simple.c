@@ -5,6 +5,8 @@
 
 // prototypes
 static void generateFractal(unsigned char *pixels, int width, int height, int iteration_max, double a, double b, double xmin, double xmax, double ymin, double ymax);
+static void generateFractal_Optim1(unsigned char *pixels, int width, int height, int iteration_max, double a, double b, double xmin, double xmax, double ymin, double ymax);
+
 static void writeBMP(const char *filename, unsigned char *pixels, int width, int height);
 static unsigned char* createBitmapFileHeader(int height, int stride);
 static unsigned char* createBitmapInfoHeader(int height, int width);
@@ -66,7 +68,8 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    generateFractal(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
+    // generateFractal(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
+    generateFractal_Optim1(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
     writeBMP("fractal.bmp", pixels, width, height);
 
     free(pixels);
@@ -75,15 +78,6 @@ int main(int argc, char *argv[]) {
     return 0;
 }
 
-/**
- * Generates the fractal image by filling the pixels buffer.
- *
- * pixels: pointer to an array of size width * height * BYTES_PER_PIXEL
- * width, height: dimensions of the image
- * iteration_max: maximum number of iterations for the fractal
- * a, b: parameters of the fractal formula
- * xmin, xmax, ymin, ymax: defines the region of the plane to map onto the image
- */
 static void generateFractal(unsigned char *pixels, int width, int height, int iteration_max, double a, double b, double xmin, double xmax, double ymin, double ymax) {
     for (int line = 0; line < height; line++) {
         for (int col = 0; col < width; col++) {
@@ -115,6 +109,43 @@ static void generateFractal(unsigned char *pixels, int width, int height, int it
         }
     }
 }
+
+static void generateFractal_Optim1(unsigned char *pixels, int width, int height, int iteration_max, double a, double b, double xmin, double xmax, double ymin, double ymax) {
+    double dx = (xmax - xmin) / (double)width;
+    double dy = (ymax - ymin) / (double)height;
+    
+    for (int line = 0; line < height; line++) {
+        double y = ymax - line * dy;
+        double x = xmin;
+        for (int col = 0; col < width; col++) {
+            double X = x;
+            double Y = y;
+            
+            int i = 1;
+            while (i <= iteration_max && (X*X + Y*Y) <= 4.0) {
+                double x_new = X*X - Y*Y + a;
+                double y_new = 2.0 * X * Y + b;
+                X = x_new;
+                Y = y_new;
+                i++;
+            }
+
+            int index = (line * width + col) * BYTES_PER_PIXEL;
+            if (i > iteration_max && (X*X + Y*Y) <= 4.0) {
+                pixels[index + 0] = 0;  
+                pixels[index + 1] = 0;  
+                pixels[index + 2] = 0;  
+            } else {
+                pixels[index + 0] = (unsigned char)((4*i) % 256); 
+                pixels[index + 1] = (unsigned char)(2*i);         
+                pixels[index + 2] = (unsigned char)((6*i) % 256); 
+            }
+            
+            x += dx;
+        }
+    }
+}
+
 
 // https://stackoverflow.com/questions/2654480/writing-bmp-image-in-pure-c-c-without-other-libraries
 
