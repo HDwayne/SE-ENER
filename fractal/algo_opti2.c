@@ -3,7 +3,7 @@
 // Utilisation de calloc pour initialiser le tableau de pixels à 0 et éviter des ecrire des pixels noirs inutiles
 // Je ne constate a première vue pas de différence de performance entre malloc et calloc mais cela me semble plus propre
 
-// ? Boucle imbriquée precedente plus logique ? afin de ne limiter le nmobre de boucles et calculs de lignes. A verifier
+// Boucle imbriquée precedente plus logique ? afin de ne limiter le nmobre de boucles et calculs de lignes. A verifier
 
 void generateFractal_opti2(unsigned char *pixels, int width, int height, int iteration_max, double a, double b, double xmin, double xmax, double ymin, double ymax) {
     int total_pixels = (width * height) / 2;
