@@ -23,20 +23,7 @@ Ce projet est un générateur de fractales écrit en C. Il utilise diverses tech
 
 ## Compilation
 
-Pour compiler le projet, utilisez le fichier Makefile fourni. Veiullez à décommenter les flags de compilation correspondant à l'optimisation souhaitée :
-
-```
-# optimisation 1 & 2
-# CFLAGS=
-
-# optimisation 3 & 4
-# CFLAGS=-mavx -fopenmp
-
-# optimisation 5 & 6
-CFLAGS=-mavx512f -fopenmp
-```
-
-Vous devez également définir l'algorithme à utiliser en décommentant la ligne correspondante (voir fichier `fractal.c`) :
+Vous devez définir l'algorithme à utiliser en décommentant la ligne correspondante (voir fichier `fractal.c`) :
 
 ```c
 // generateFractal(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX); // version simple

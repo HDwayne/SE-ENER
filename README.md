@@ -2,11 +2,11 @@
 
 ## Description
 
-**SE-ENER** est le fruit d’un projet universitaire. Il regroupe plusieurs outils et applications dédiés à l’analyse de performances, avec un accent particulier sur la consommation énergétique et l’optimisation des algorithmes.
+**SE-ENER** est le resultat d’un TP universitaire. Il regroupe plusieurs outils et applications dédiés à l’analyse de performances, avec un accent particulier sur la consommation énergétique et l’optimisation des algorithmes.
 
 ![result](./img/image.png)
 
-### Composants du Projet
+### Composants du TP
 
 1. **app_analyse** : Une application en C permettant de surveiller la consommation énergétique d’une commande ou application via MojitO/S.
 2. **fractal** : Un générateur de fractales implémenté en C, proposant plusieurs algorithmes. Il utilise des techniques avancées comme SIMD (AVX, AVX-512) et la parallélisation multicœur.
@@ -94,3 +94,7 @@ make test NAME=<nom_du_test>
 ```
 
 Les données générées seront enregistrées dans le répertoire `result/`.
+
+---
+
+![fractal](./img/fractal.bmp)
