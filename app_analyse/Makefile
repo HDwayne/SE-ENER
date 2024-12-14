@@ -14,7 +14,6 @@ $(TARGET): app.c
 clean:
 	rm -f $(TARGET)
 	rm -f *.o
-	rm -f *.out
 	rm -f fractal.bmp
 	rm -rf ./data
 

@@ -1,2 +1,6 @@
 .venv/
 .vscode/
+
+*.o
+app_analyse/app
+fractal/fractal

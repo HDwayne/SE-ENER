@@ -28,33 +28,32 @@ typedef struct {
 Result *results = NULL;
 
 //prototype
-static void usage(const char *progname);
-static void check_root(void);
-static void ensure_output_folder(const char *folder);
-static pid_t run_mojitos(int frequency, const char *output_file_path);
-static pid_t run_command(int argc, char *argv[], int cmd_index);
-static void wait_for_command(pid_t cmd_pid);
-static void stop_mojitos(pid_t mojitos_pid);
-static void compute_and_print_stats(const char *output_file_path);
-static void append_to_json_file(const char *command, char **params, int param_count, double time, double energy, double power);
+void usage(const char *progname);
+void check_root(void);
+void ensure_output_folder(const char *folder);
+pid_t run_mojitos(int frequency, const char *output_file_path);
+pid_t run_command(int argc, char *argv[], int cmd_index);
+void stop_mojitos(pid_t mojitos_pid);
+void compute_and_print_stats(const char *output_file_path);
+void append_to_json_file(const char *command, char **params, int param_count, double time, double energy, double power);
 
 
-static void usage(const char *progname) {
+void usage(const char *progname) {
     fprintf(stderr, "Usage: %s [-f frequency] <command_to_monitor> [args...]\n", progname);
     exit(EXIT_FAILURE);
 }
 
-static void check_root(void) {
+void check_root(void) {
     if (geteuid() != 0) {
         fprintf(stderr, "Please run as root (with sudo)\n");
         exit(EXIT_FAILURE);
     }
 }
 
-static void ensure_output_folder(const char *folder) {
+void ensure_output_folder(const char *folder) {
     struct stat st = {0};
     if (stat(folder, &st) == -1) {
-        if (mkdir(folder, 0777) != 0) {
+        if (mkdir(folder, 0755) != 0) {
             perror("mkdir OUTPUT_FOLDER");
             exit(EXIT_FAILURE);
         }
@@ -62,7 +61,7 @@ static void ensure_output_folder(const char *folder) {
     }
 }
 
-static pid_t run_mojitos(int frequency, const char *output_file_path) {
+pid_t run_mojitos(int frequency, const char *output_file_path) {
     pid_t pid = fork();
     if (pid == -1) {
         perror("fork");
@@ -81,7 +80,7 @@ static pid_t run_mojitos(int frequency, const char *output_file_path) {
     return pid;
 }
 
-static pid_t run_command(int argc, char *argv[], int cmd_index) {
+pid_t run_command(int argc, char *argv[], int cmd_index) {
     pid_t pid = fork();
     if (pid == -1) {
         perror("fork");
@@ -107,30 +106,13 @@ static pid_t run_command(int argc, char *argv[], int cmd_index) {
     return pid;
 }
 
-static void wait_for_command(pid_t cmd_pid) {
-    int status;
-    if (waitpid(cmd_pid, &status, 0) == -1) {
-        perror("waitpid");
-    } else {
-        printf("Monitored command finished.\n");
-    }
-}
-
-static void stop_mojitos(pid_t mojitos_pid) {
+void stop_mojitos(pid_t mojitos_pid) {
     printf("Stopping MojitO/S...\n");
     kill(mojitos_pid, SIGTERM);
     waitpid(mojitos_pid, NULL, 0);
 }
 
-/**
- * Fonction pour calculer et afficher les stats.
- * On affiche :
- * - Le temps total (tt)
- * - L'énergie cumulée par colonne (en Joules)
- * - L'énergie cumulée totale (toutes colonnes d'énergie confondues)
- * - La puissance moyenne (W)
- */
-static void compute_and_print_stats(const char *output_file_path) {
+void compute_and_print_stats(const char *output_file_path) {
     printf("Data collection complete. File saved to %s\n", output_file_path);
 
     if (access(output_file_path, F_OK) != 0) {
@@ -161,7 +143,6 @@ static void compute_and_print_stats(const char *output_file_path) {
     char *newline = strchr(headers_copy, '\n');
     if (newline) *newline = '\0';
 
-    // On tokenize par espaces
     int col_count = 0;
     char *token = strtok(headers_copy, " \t");
     char **colnames = NULL;
@@ -187,7 +168,6 @@ static void compute_and_print_stats(const char *output_file_path) {
         exit(EXIT_FAILURE);
     }
 
-    // Tableau pour stocker l'énergie cumulée par colonne
     double *energy_sum_uJ = calloc(col_count, sizeof(double));
     if (!energy_sum_uJ) {
         perror("calloc");
@@ -225,7 +205,6 @@ static void compute_and_print_stats(const char *output_file_path) {
         free(line_copy);
 
         if (field_idx < col_count) {
-            // Ligne incomplète, on ignore
             continue;
         }
 
@@ -233,7 +212,6 @@ static void compute_and_print_stats(const char *output_file_path) {
 
         if (first_data_line) {
             start_time = timestamp;
-            // Ajout des énergies pour cette ligne
             for (int i = 1; i < col_count; i++) {
                 energy_sum_uJ[i] += values[i];
             }
@@ -251,8 +229,6 @@ static void compute_and_print_stats(const char *output_file_path) {
     fclose(fp);
 
     double tt = end_time - start_time; // Temps total en s
-
-    // Calcul de l'énergie totale (somme de toutes les colonnes d'énergie)
     double total_energy_uJ = 0.0;
     for (int i = 1; i < col_count; i++) {
         total_energy_uJ += energy_sum_uJ[i];
@@ -269,19 +245,10 @@ static void compute_and_print_stats(const char *output_file_path) {
     printf("Énergie totale (J): %.6f\n", total_energy_J);
     printf("Puissance moyenne (W): %.6f\n\n", puissance);
 
-    printf("Détail par colonne:\n");
-    // Affiche la liste des colonnes et leur énergie totale en Joules
-    // La première colonne est le timestamp, donc on commence à i=1
-    for (int i = 1; i < col_count; i++) {
-        double column_energy_J = energy_sum_uJ[i] / 1e6;
-        printf("%s: %.6f J\n", colnames[i], column_energy_J);
-    }
-
     results->time = tt;
     results->energy = total_energy_J;
     results->power = puissance;
 
-    // Nettoyage
     free(energy_sum_uJ);
     for (int i = 0; i < col_count; i++)
         free(colnames[i]);
@@ -289,10 +256,9 @@ static void compute_and_print_stats(const char *output_file_path) {
     free(headers_copy);
 }
 
-static void append_to_json_file(const char *command, char **params, int param_count, double time, double energy, double power) {
+void append_to_json_file(const char *command, char **params, int param_count, double time, double energy, double power) {
     FILE *fp = fopen(JSON_FILE, "r+");
     if (!fp) {
-        // If the file doesn't exist, create it and start a new JSON array
         fp = fopen(JSON_FILE, "w");
         if (!fp) {
             perror("fopen JSON_FILE");
@@ -300,19 +266,16 @@ static void append_to_json_file(const char *command, char **params, int param_co
         }
         fprintf(fp, "[\n");
     } else {
-        // Check if the file is empty
         fseek(fp, 0, SEEK_END);
         long file_size = ftell(fp);
         if (file_size == 0) {
             fprintf(fp, "[\n");
         } else {
-            // Move back to overwrite the closing bracket
             fseek(fp, -2, SEEK_END);
             fprintf(fp, ",\n");
         }
     }
 
-    // Write the JSON entry
     fprintf(fp, "  {\n");
     fprintf(fp, "    \"command\": \"%s\",\n", command);
     fprintf(fp, "    \"params\": [");
@@ -331,6 +294,7 @@ static void append_to_json_file(const char *command, char **params, int param_co
 }
 
 int main(int argc, char *argv[]) {
+
     int frequency = DEFAULT_FREQUENCY;
     int json_output = 0;
 
@@ -339,7 +303,6 @@ int main(int argc, char *argv[]) {
     }
 
     int i = 1;
-    // Parse les options de l'appli (-f)
     while (i < argc) {
         if (strcmp(argv[i], "-f") == 0) {
             i++;
@@ -357,30 +320,27 @@ int main(int argc, char *argv[]) {
             json_output = 1;
             i++;
         } else {
-            // On est arrivé à un argument non-option
             break;
         }
     }
 
-    // A ce stade, i pointe sur la commande monitorée (ou la fin des arguments)
     if (i >= argc) {
         fprintf(stderr, "No command specified.\n");
         usage(argv[0]);
     }
 
-    int cmd_index = i;
+    check_root();
 
+    int cmd_index = i;
     results = malloc(sizeof(Result));
     if (!results) {
         perror("malloc");
         exit(EXIT_FAILURE);
     }
-
     results->command = argv[cmd_index];
     results->params = &argv[cmd_index + 1];
     results->param_count = argc - cmd_index - 1;
     
-    check_root();
     ensure_output_folder(OUTPUT_FOLDER);
 
     char output_file_path[1024];
@@ -389,11 +349,16 @@ int main(int argc, char *argv[]) {
 
     pid_t mojitos_pid = run_mojitos(frequency, output_file_path);
     pid_t cmd_pid = run_command(argc, argv, cmd_index);
-    wait_for_command(cmd_pid);
+    
+    int status;
+    if (waitpid(cmd_pid, &status, 0) == -1) {
+        perror("waitpid");
+    } else {
+        printf("Monitored command finished.\n");
+    }
+
     stop_mojitos(mojitos_pid);
-
     compute_and_print_stats(output_file_path);
-
     if (json_output) {
         append_to_json_file(results->command, results->params, results->param_count, results->time, results->energy, results->power);
     }
