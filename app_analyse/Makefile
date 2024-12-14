@@ -22,8 +22,8 @@ test: $(TARGET)
 	chmod +x test.sh
 	@if [ -n "$(NAME)" ]; then \
 		./test.sh $(TARGET); \
-		mv test_result.out ../result/$(NAME).out; \
-		printf "Test saved as ../result/%s.out\n" $(NAME); \
+		mv ./data ./data-$(NAME)-fractal; \
+		mv ./data-$(NAME)-fractal ../result/; \
 	else \
 		printf "Specify NAME=<name> to save the test output.\n"; \
 	fi
