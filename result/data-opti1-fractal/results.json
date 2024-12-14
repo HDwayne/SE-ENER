@@ -1,0 +1,393 @@
+[
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "4500", "-w", "4500", "-f"],
+    "time": 2.10,
+    "energy": 104.57,
+    "power": 49.77
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "4500", "-w", "5000", "-f"],
+    "time": 2.39,
+    "energy": 117.53,
+    "power": 49.26
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "4500", "-w", "5500", "-f"],
+    "time": 2.66,
+    "energy": 131.16,
+    "power": 49.29
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "4500", "-w", "6000", "-f"],
+    "time": 2.86,
+    "energy": 144.18,
+    "power": 50.40
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "4500", "-w", "6500", "-f"],
+    "time": 3.13,
+    "energy": 155.01,
+    "power": 49.46
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "4500", "-w", "7000", "-f"],
+    "time": 3.37,
+    "energy": 165.72,
+    "power": 49.20
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "4500", "-w", "7500", "-f"],
+    "time": 3.57,
+    "energy": 177.57,
+    "power": 49.76
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "5000", "-w", "4500", "-f"],
+    "time": 2.40,
+    "energy": 122.07,
+    "power": 50.78
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "5000", "-w", "5000", "-f"],
+    "time": 2.63,
+    "energy": 131.55,
+    "power": 50.02
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "5000", "-w", "5500", "-f"],
+    "time": 2.89,
+    "energy": 142.08,
+    "power": 49.13
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "5000", "-w", "6000", "-f"],
+    "time": 3.19,
+    "energy": 159.44,
+    "power": 49.91
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "5000", "-w", "6500", "-f"],
+    "time": 3.43,
+    "energy": 172.08,
+    "power": 50.20
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "5000", "-w", "7000", "-f"],
+    "time": 3.71,
+    "energy": 191.51,
+    "power": 51.68
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "5000", "-w", "7500", "-f"],
+    "time": 3.99,
+    "energy": 201.45,
+    "power": 50.46
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "5500", "-w", "4500", "-f"],
+    "time": 2.63,
+    "energy": 131.46,
+    "power": 50.06
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "5500", "-w", "5000", "-f"],
+    "time": 2.90,
+    "energy": 146.12,
+    "power": 50.31
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "5500", "-w", "5500", "-f"],
+    "time": 3.21,
+    "energy": 161.98,
+    "power": 50.50
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "5500", "-w", "6000", "-f"],
+    "time": 3.52,
+    "energy": 177.81,
+    "power": 50.46
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "5500", "-w", "6500", "-f"],
+    "time": 3.73,
+    "energy": 187.63,
+    "power": 50.25
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "5500", "-w", "7000", "-f"],
+    "time": 4.07,
+    "energy": 204.90,
+    "power": 50.34
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "5500", "-w", "7500", "-f"],
+    "time": 4.43,
+    "energy": 225.51,
+    "power": 50.90
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "6000", "-w", "4500", "-f"],
+    "time": 2.91,
+    "energy": 145.69,
+    "power": 50.10
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "6000", "-w", "5000", "-f"],
+    "time": 3.16,
+    "energy": 159.86,
+    "power": 50.55
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "6000", "-w", "5500", "-f"],
+    "time": 3.52,
+    "energy": 176.90,
+    "power": 50.22
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "6000", "-w", "6000", "-f"],
+    "time": 3.84,
+    "energy": 192.53,
+    "power": 50.16
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "6000", "-w", "6500", "-f"],
+    "time": 4.15,
+    "energy": 208.89,
+    "power": 50.36
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "6000", "-w", "7000", "-f"],
+    "time": 4.43,
+    "energy": 222.44,
+    "power": 50.24
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "6000", "-w", "7500", "-f"],
+    "time": 4.77,
+    "energy": 240.13,
+    "power": 50.30
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "6500", "-w", "4500", "-f"],
+    "time": 3.15,
+    "energy": 162.49,
+    "power": 51.54
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "6500", "-w", "5000", "-f"],
+    "time": 3.48,
+    "energy": 175.80,
+    "power": 50.49
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "6500", "-w", "5500", "-f"],
+    "time": 3.77,
+    "energy": 189.87,
+    "power": 50.42
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "6500", "-w", "6000", "-f"],
+    "time": 4.13,
+    "energy": 207.72,
+    "power": 50.31
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "6500", "-w", "6500", "-f"],
+    "time": 4.52,
+    "energy": 228.95,
+    "power": 50.69
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "6500", "-w", "7000", "-f"],
+    "time": 4.81,
+    "energy": 242.11,
+    "power": 50.31
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "6500", "-w", "7500", "-f"],
+    "time": 5.12,
+    "energy": 257.20,
+    "power": 50.19
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "7000", "-w", "4500", "-f"],
+    "time": 3.41,
+    "energy": 172.27,
+    "power": 50.46
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "7000", "-w", "5000", "-f"],
+    "time": 3.67,
+    "energy": 184.59,
+    "power": 50.33
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "7000", "-w", "5500", "-f"],
+    "time": 4.04,
+    "energy": 203.26,
+    "power": 50.37
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "7000", "-w", "6000", "-f"],
+    "time": 4.48,
+    "energy": 226.59,
+    "power": 50.55
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "7000", "-w", "6500", "-f"],
+    "time": 4.81,
+    "energy": 243.50,
+    "power": 50.60
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "7000", "-w", "7000", "-f"],
+    "time": 5.19,
+    "energy": 261.05,
+    "power": 50.32
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "7000", "-w", "7500", "-f"],
+    "time": 5.52,
+    "energy": 278.41,
+    "power": 50.43
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "7500", "-w", "4500", "-f"],
+    "time": 3.75,
+    "energy": 192.38,
+    "power": 51.27
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "7500", "-w", "5000", "-f"],
+    "time": 4.06,
+    "energy": 205.36,
+    "power": 50.59
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "7500", "-w", "5500", "-f"],
+    "time": 4.37,
+    "energy": 220.43,
+    "power": 50.45
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "7500", "-w", "6000", "-f"],
+    "time": 4.75,
+    "energy": 241.55,
+    "power": 50.87
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "7500", "-w", "6500", "-f"],
+    "time": 5.18,
+    "energy": 260.60,
+    "power": 50.26
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "7500", "-w", "7000", "-f"],
+    "time": 5.56,
+    "energy": 280.85,
+    "power": 50.51
+  }
+,
+  {
+    "command": "../fractal/fractal",
+    "params": ["-h", "7500", "-w", "7500", "-f"],
+    "time": 6.02,
+    "energy": 302.65,
+    "power": 50.25
+  }
+]
