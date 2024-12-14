@@ -75,13 +75,13 @@ int main(int argc, char *argv[]) {
     }
 
 
-    // generateFractal(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
-    // generateFractal_opti1(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
-    // generateFractal_opti2(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
-    // generateFractal_opti3(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
-    // generateFractal_opti4(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
-    // generateFractal_opti5(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
-    generateFractal_opti6(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
+    // generateFractal(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX); // version simple
+    // generateFractal_opti1(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX); // version boucle et operation simplifiee
+    // generateFractal_opti2(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX); // version ne pas ecrire les pixels noirs
+    // generateFractal_opti3(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX); // AVX monocoeur
+    // generateFractal_opti4(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX); // AVX multicore
+    // generateFractal_opti5(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX); // AVX-512 monocoeur
+    generateFractal_opti6(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX); // AVX-512 multicore
     
     if (write_file) {
         writeBMP("fractal.bmp", pixels, width, height);

@@ -6,6 +6,8 @@
 #include <stdlib.h>
 #include <omp.h>
 
+// Grid5000 Nancy cluster gros : Intel Xeon Gold 5220 	18 cores/CPU 	x86_64
+// donc un simple pragma omp parallel for schedule(dynamic, 18) suffit pour exploiter les 18 coeurs
 
 void generateFractal_opti4(unsigned char *pixels, int width, int height, int iteration_max, double a, double b, double xmin, double xmax, double ymin, double ymax) {
     int total_pixels = (width * height) / 2;
