@@ -8,3 +8,4 @@ void generateFractal_opti2(unsigned char *pixels, int width, int height, int ite
 void generateFractal_opti3(unsigned char *pixels, int width, int height, int iteration_max, double a, double b, double xmin, double xmax, double ymin, double ymax);
 void generateFractal_opti4(unsigned char *pixels, int width, int height, int iteration_max, double a, double b, double xmin, double xmax, double ymin, double ymax);
 void generateFractal_opti5(unsigned char *pixels, int width, int height, int iteration_max, double a, double b, double xmin, double xmax, double ymin, double ymax);
+void generateFractal_opti6(unsigned char *pixels, int width, int height, int iteration_max, double a, double b, double xmin, double xmax, double ymin, double ymax);
