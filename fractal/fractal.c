@@ -80,8 +80,8 @@ int main(int argc, char *argv[]) {
     // generateFractal_opti2(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
     // generateFractal_opti3(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
     // generateFractal_opti4(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
-    generateFractal_opti5(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
-    // generateFractal_opti6(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
+    // generateFractal_opti5(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
+    generateFractal_opti6(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
     
     if (write_file) {
         writeBMP("fractal.bmp", pixels, width, height);
