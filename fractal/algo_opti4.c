@@ -4,21 +4,9 @@
 #include <immintrin.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <omp.h>
 
-
-// Grid5000 Nancy cluster gros : Intel Xeon Gold 5220 	18 cores/CPU 	x86_64
-
-// https://www.intel.fr/content/www/fr/fr/products/sku/193388/intel-xeon-gold-5220-processor-24-75m-cache-2-20-ghz/specifications.html
-// Extensions au jeu d'instructions : Intel® SSE4.2, Intel® AVX, Intel® AVX2, Intel® AVX-512 
-
-
-// SIMD est un paradigme où une seule instruction opère sur plusieurs données en parallèle
-//
-
-// Mon objectif est de rester sur un même cpu et de decouvrir les possibilités de celui-ci
-// A la différence de // avec openmp, SIMD se concentre sur les instructions et non sur les threads
-
-void generateFractal_opti3(unsigned char *pixels, int width, int height, int iteration_max, double a, double b, double xmin, double xmax, double ymin, double ymax) {
+void generateFractal_opti4(unsigned char *pixels, int width, int height, int iteration_max, double a, double b, double xmin, double xmax, double ymin, double ymax) {
     int total_pixels = (width * height) / 2;  // Traite seulement la moitié supérieure
     double x_scale = (xmax - xmin) / (double)width;  // Échelle sur l'axe X
     double y_scale = (ymax - ymin) / (double)height; // Échelle sur l'axe Y
@@ -32,6 +20,8 @@ void generateFractal_opti3(unsigned char *pixels, int width, int height, int ite
     __m256d avx_b = _mm256_set1_pd(b);
     __m256d avx_four = _mm256_set1_pd(4.0);
 
+    // OpenMP parallelization
+    #pragma omp parallel for schedule(dynamic, 16)
     for (int pixel_idx = 0; pixel_idx < total_pixels; pixel_idx += 4) {  // Traite 4 pixels à la fois
         // Calculer `line` et `col` pour 4 pixels en parallèle
         __m256d avx_col = _mm256_set_pd(

@@ -1,5 +1,5 @@
 CC=gcc
-CFLAGS=
+CFLAGS=-mavx -fopenmp
 TARGET=fractal
 
 SOURCES=$(wildcard *.c)

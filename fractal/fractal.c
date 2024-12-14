@@ -58,16 +58,28 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    unsigned char *pixels = (unsigned char*)malloc(width * height * BYTES_PER_PIXEL);
+    // Used for version simpla and opti1
+
+    // unsigned char *pixels = (unsigned char*)malloc(width * height * BYTES_PER_PIXEL);
+    // if (!pixels) {
+    //     fprintf(stderr, "Memory allocation failed.\n");
+    //     return 1;
+    // }
+
+    // since we are using the opti2 version
+
+    unsigned char *pixels = calloc(width * height * 3, sizeof(unsigned char));
     if (!pixels) {
-        fprintf(stderr, "Memory allocation failed.\n");
+        fprintf(stderr, "Memory allocation failed\n");
         return 1;
     }
 
-    generateFractal(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
-    // generateFractal_Optim1(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
-    // generateFractal_FixedPoint(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
-    // generateFractal_BinaryLowLevel_q16_16(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
+
+    // generateFractal(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
+    // generateFractal_opti1(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
+    // generateFractal_opti2(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
+    // generateFractal_opti3(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
+    generateFractal_opti4(pixels, width, height, iteration_max, A, B, XMIN, XMAX, YMIN, YMAX);
     
     if (write_file) {
         writeBMP("fractal.bmp", pixels, width, height);
